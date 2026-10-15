@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Project & Creator | Asthana Bookstore</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Floating Navbar -->
+    <nav class="app-navbar">
+        <a href="index.html" class="brand-wrapper">
+            <div class="brand-logo-icon">📚</div>
+            <span class="brand-title">Asthana Bookstore</span>
+        </a>
+        <div class="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About Creator</a>
+            <a href="login.html" class="nav-link">Sign In</a>
+            <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Creator Hero Banner -->
+        <div class="glass-panel" style="padding: 3.5rem 2.5rem; text-align: center; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.08) 100%);">
+            <div style="width: 84px; height: 84px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem; box-shadow: 0 10px 30px var(--accent-glow);">
+                👨‍💻
+            </div>
+            <span class="brand-badge" style="margin-bottom: 0.8rem; display: inline-block;">PROJECT OWNER & LEAD ARCHITECT</span>
+            <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem;">
+                Aditya Asthana
+            </h1>
+            <p style="color: var(--text-secondary); max-width: 680px; margin: 0 auto 2rem; font-size: 1.1rem; line-height: 1.6;">
+                Passionate Software Engineer & Systems Architect dedicated to crafting elegant, scalable, and high-performance digital platforms.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="index.html" class="btn btn-primary">Explore Storefront</a>
+                <a href="login.html" class="btn btn-outline">Access Platform</a>
+            </div>
+        </div>
+
+        <!-- System Architecture Breakdown -->
+        <div style="margin-bottom: 3.5rem;">
+            <div style="text-align: center; margin-bottom: 2.5rem;">
+                <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">SYSTEM DESIGN</span>
+                <h2 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.5px;">Architectural Highlights</h2>
+            </div>
+
+            <div class="grid grid-cols-3">
+                <div class="glass-panel">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Application Layer</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        High-concurrency Java HTTP Servlets processing REST-style JSON endpoints via Google Gson. Decoupled controller-service-DAO design with clean exception propagation.
+                    </p>
+                </div>
+
+                <div class="glass-panel">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Persistence Tier</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        MySQL 8.0 relational database with JDBC 8.0 driver. Parametric queries prevent SQL injections, transactional updates safeguard stock during high-volume checkouts.
+                    </p>
+                </div>
+
+                <div class="glass-panel">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">💎</div>
+                    <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Modern UX Engine</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Custom glassmorphic styling, async fetch pipelines, toast notifications, slide-over cart drawer, and client-side real-time filter indexing.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Badges -->
+        <div class="glass-panel" style="margin-bottom: 3rem; text-align: center;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem;">Technologies & Core Standards</h3>
+            <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                <span class="chip-btn" style="cursor: default;">☕ Java JDK 8+</span>
+                <span class="chip-btn" style="cursor: default;">🌐 Java Servlets & JSP API</span>
+                <span class="chip-btn" style="cursor: default;">🐬 MySQL Server 8.0</span>
+                <span class="chip-btn" style="cursor: default;">🔌 MySQL Connector/J</span>
+                <span class="chip-btn" style="cursor: default;">📦 Apache Maven</span>
+                <span class="chip-btn" style="cursor: default;">🚀 Embedded Tomcat (Webapp-Runner)</span>
+                <span class="chip-btn" style="cursor: default;">⚡ ES6+ JavaScript Async/Await</span>
+                <span class="chip-btn" style="cursor: default;">🎨 Glassmorphism & Vanilla CSS</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="brand-wrapper">
+                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📚</div>
+                <span style="font-weight: 700; color: white;">Asthana Bookstore</span>
+            </div>
+            <div class="footer-credits">
+                Designed & Engineered exclusively by <strong>Aditya Asthana</strong> • &copy; 2026 All Rights Reserved
+            </div>
+            <div>
+                <a href="index.html" class="btn btn-outline btn-sm">Back to Storefront</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

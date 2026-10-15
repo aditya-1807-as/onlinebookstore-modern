@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | Asthana Bookstore</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Floating Navbar -->
+    <nav class="app-navbar">
+        <a href="customer_dashboard.html" class="brand-wrapper">
+            <div class="brand-logo-icon">📚</div>
+            <div>
+                <span class="brand-title">Asthana Bookstore</span>
+            </div>
+            <span class="brand-badge">CUSTOMER</span>
+        </a>
+        <div class="nav-menu">
+            <a href="customer_dashboard.html" class="nav-link active">Storefront</a>
+            <button class="cart-pill-btn" onclick="CartDrawer.open()">
+                <span>🛒</span>
+                <span>Cart</span>
+                <span class="cart-badge-count" id="navCartCount">0</span>
+            </button>
+            <a href="about.html" class="nav-link">About</a>
+            <button class="btn btn-outline btn-sm" onclick="logout()">Sign Out</button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="glass-panel" style="margin-bottom: 2.5rem; background: linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(139,92,246,0.06) 100%); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+            <div>
+                <div class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">VERIFIED CUSTOMER SESSION</div>
+                <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 0.4rem;">
+                    Welcome to the Reading Lounge
+                </h1>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                    Select your favorite titles, adjust quantities, and checkout with instant receipt generation.
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" onclick="CartDrawer.open()">
+                    <span>🛍️</span> View Shopping Cart
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="filter-bar">
+            <div class="search-box-wrapper">
+                <span class="search-icon-adornment">🔍</span>
+                <input type="text" id="dashboardSearch" class="form-control" placeholder="Search books by title, author, or ISBN..." oninput="filterDashboardBooks()">
+            </div>
+            
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+                <div class="category-chips">
+                    <button class="chip-btn active" onclick="setDashboardCategory('all', this)">All</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('java', this)">Java</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('rust', this)">Rust & Systems</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('python', this)">Python</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('web', this)">Web</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('architecture', this)">Architecture</button>
+                </div>
+
+                <select id="sortSelect" class="form-control" style="width: auto; padding: 0.45rem 1rem; font-size: 0.85rem;" onchange="sortDashboardBooks()">
+                    <option value="default">Sort by: Default</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="stock-desc">Stock Availability</option>
+                    <option value="name-asc">Title: A to Z</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Book Catalog Grid -->
+        <div class="grid grid-cols-3" id="dashboardBookGrid">
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-secondary);">
+                <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                <p>Loading bookstore catalog...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Slide-Over Cart Drawer -->
+    <div id="cartDrawerOverlay" class="cart-drawer-overlay" onclick="CartDrawer.close()"></div>
+    <div id="cartDrawer" class="cart-drawer">
+        <div class="cart-drawer-header">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+                <span style="font-size: 1.3rem;">🛒</span>
+                <h3 style="font-size: 1.15rem; font-weight: 700;">Your Shopping Bag</h3>
+            </div>
+            <button class="modal-close-btn" onclick="CartDrawer.close()">&times;</button>
+        </div>
+        
+        <!-- Cart Items List Container -->
+        <div class="cart-drawer-body" id="drawerCartItems">
+            <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Cart Drawer Footer -->
+        <div class="cart-drawer-footer">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.2rem;">
+                <span style="color: var(--text-secondary); font-size: 0.95rem;">Total Payable:</span>
+                <span id="drawerTotalAmount" style="font-size: 1.6rem; font-weight: 800; color: #34d399;">₹0</span>
+            </div>
+            <button id="drawerCheckoutBtn" class="btn btn-success w-full btn-lg" onclick="openCheckoutModal()">
+                <span>💳</span> Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 520px;">
+            <div class="modal-header">
+                <h3 class="modal-title">Complete Your Order</h3>
+                <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Review your payment details to finalize your purchase.
+                </p>
+
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span style="color: var(--text-secondary);">Subtotal Amount:</span>
+                        <span id="modalSubtotal" style="font-weight: 600;">₹0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
+                        <span style="color: var(--text-secondary);">Shipping & Delivery:</span>
+                        <span style="color: #34d399; font-weight: 600;">FREE</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border-glass); font-size: 1.1rem; font-weight: 800;">
+                        <span>Total Due:</span>
+                        <span id="modalTotalDue" style="color: #34d399;">₹0</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                        <label style="border: 1px solid var(--accent-indigo); background: rgba(99,102,241,0.15); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: white; font-size: 0.82rem; font-weight: 600;">
+                            <input type="radio" name="payMethod" value="card" checked style="display: none;">
+                            💳 Card
+                        </label>
+                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;">
+                            <input type="radio" name="payMethod" value="upi" style="display: none;">
+                            📱 UPI / QR
+                        </label>
+                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;">
+                            <input type="radio" name="payMethod" value="netbanking" style="display: none;">
+                            🏦 Net Banking
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Delivery Confirmation Name</label>
+                    <input type="text" id="confirmCustName" class="form-control" placeholder="Your Name" value="Aditya Asthana">
+                </div>
+
+                <button class="btn btn-success w-full btn-lg" id="confirmPayBtn" onclick="processOrderPayment()">
+                    Confirm & Pay Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Receipt / Tax Invoice Modal -->
+    <div id="receiptModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 620px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <span style="font-size: 1.3rem;">🧾</span>
+                    <h3 class="modal-title">Official Tax Invoice & Receipt</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeReceiptModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="printableReceiptArea">
+                <div class="invoice-card" id="invoiceCardContent">
+                    <!-- Rendered by JS after payment -->
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary w-full" onclick="printReceipt()">
+                        🖨️ Print / Save Receipt
+                    </button>
+                    <button class="btn btn-outline w-full" onclick="closeReceiptModal()">
+                        Close & Continue Shopping
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="brand-wrapper">
+                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📚</div>
+                <span style="font-weight: 700; color: white;">Asthana Bookstore</span>
+            </div>
+            <div class="footer-credits">
+                Asthana Bookstore Platform • Engineered exclusively by <strong>Aditya Asthana</strong>
+            </div>
+            <div>
+                <button class="btn btn-outline btn-sm" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        let storeBooks = [];
+        let currentFilterCategory = 'all';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchBooks();
+            fetchCartCount();
+        });
+
+        async function fetchBooks() {
+            try {
+                const res = await fetch('viewbook');
+                const data = await res.json();
+                
+                if (data.success && data.books) {
+                    storeBooks = data.books;
+                    renderBooksGrid(storeBooks);
+                } else {
+                    if (data.message && data.message.includes('Login First')) {
+                        Toast.error("Session expired. Redirecting to login...");
+                        setTimeout(() => window.location.href = 'login.html', 1200);
+                    }
+                }
+            } catch (err) {
+                console.error("Fetch books error:", err);
+                Toast.error("Failed to load books from server");
+            }
+        }
+
+        async function fetchCartCount() {
+            try {
+                const res = await fetch('cart');
+                const data = await res.json();
+                if (data.success && data.cartItems) {
+                    CartDrawer.updateBadge(data.cartItems);
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function renderBooksGrid(books) {
+            const grid = document.getElementById('dashboardBookGrid');
+            grid.innerHTML = '';
+
+            if (!books || books.length === 0) {
+                grid.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-secondary);">No books found matching criteria.</div>';
+                return;
+            }
+
+            books.forEach(book => {
+                const visuals = getBookVisuals(book.name, book.author);
+                const isOutOfStock = book.quantity <= 0;
+                
+                let stockClass = 'stock-in';
+                let stockText = `${book.quantity} in stock`;
+                if (book.quantity <= 5 && book.quantity > 0) {
+                    stockClass = 'stock-low';
+                    stockText = `Only ${book.quantity} left!`;
+                } else if (isOutOfStock) {
+                    stockClass = 'stock-out';
+                    stockText = 'Out of Stock';
+                }
+
+                const card = document.createElement('div');
+                card.className = 'book-card-modern';
+                card.innerHTML = `
+                    <div>
+                        <div class="book-cover-art" style="background: ${visuals.gradient};">
+                            <span class="book-cover-icon">${visuals.icon}</span>
+                            <span class="book-barcode-pill">${book.barcode}</span>
+                        </div>
+                        <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">${visuals.genre}</span>
+                        <h3 class="book-title">${book.name}</h3>
+                        <p class="book-author">by ${book.author}</p>
+                    </div>
+                    <div>
+                        <div class="book-price-row">
+                            <div class="book-price-tag"><span>₹</span>${book.price}</div>
+                            <span class="stock-status-pill ${stockClass}">${stockText}</span>
+                        </div>
+                        <div style="display: flex; gap: 0.6rem; align-items: center;">
+                            <div class="quantity-control">
+                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', -1)">-</button>
+                                <input type="number" id="qty_${book.barcode}" class="qty-input" value="1" min="1" max="${book.quantity}">
+                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', 1)">+</button>
+                            </div>
+                            <button class="btn btn-primary" style="flex: 1;" ${isOutOfStock ? 'disabled' : ''} onclick="addBookToCart('${book.barcode}')">
+                                <span>🛒</span> ${isOutOfStock ? 'Sold Out' : 'Add to Bag'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function adjustQty(barcode, delta) {
+            const input = document.getElementById(`qty_${barcode}`);
+            if (!input) return;
+            let val = parseInt(input.value) || 1;
+            val += delta;
+            if (val < 1) val = 1;
+            const max = parseInt(input.max) || 999;
+            if (val > max) val = max;
+            input.value = val;
+        }
+
+        async function addBookToCart(barcode) {
+            const input = document.getElementById(`qty_${barcode}`);
+            const qty = input ? input.value : '1';
+
+            const formData = new URLSearchParams();
+            formData.append('addToCart', 'Add To Cart');
+            formData.append('selectedBookId', barcode);
+            formData.append(`qty_${barcode}`, qty);
+
+            try {
+                const res = await fetch('cart', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    Toast.success("Added to your shopping bag!");
+                    CartDrawer.updateBadge(data.cartItems);
+                    CartDrawer.open();
+                } else {
+                    Toast.error(data.message || "Failed to add book to cart");
+                }
+            } catch (err) {
+                console.error("Add to cart error:", err);
+                Toast.error("Network error adding to cart");
+            }
+        }
+
+        function filterDashboardBooks() {
+            const query = document.getElementById('dashboardSearch').value.toLowerCase().trim();
+            
+            const filtered = storeBooks.filter(book => {
+                const matchesQuery = book.name.toLowerCase().includes(query) || 
+                                     book.author.toLowerCase().includes(query) || 
+                                     book.barcode.toLowerCase().includes(query);
+                
+                if (currentFilterCategory === 'all') return matchesQuery;
+                
+                const visuals = getBookVisuals(book.name, book.author);
+                const matchesCategory = visuals.genre.toLowerCase().includes(currentFilterCategory) || 
+                                        book.name.toLowerCase().includes(currentFilterCategory);
+                return matchesQuery && matchesCategory;
+            });
+
+            renderBooksGrid(filtered);
+        }
+
+        function setDashboardCategory(category, element) {
+            currentFilterCategory = category;
+            document.querySelectorAll('.category-chips .chip-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            filterDashboardBooks();
+        }
+
+        function sortDashboardBooks() {
+            const sortMode = document.getElementById('sortSelect').value;
+            let sorted = [...storeBooks];
+
+            if (sortMode === 'price-asc') sorted.sort((a, b) => a.price - b.price);
+            else if (sortMode === 'price-desc') sorted.sort((a, b) => b.price - a.price);
+            else if (sortMode === 'stock-desc') sorted.sort((a, b) => b.quantity - a.quantity);
+            else if (sortMode === 'name-asc') sorted.sort((a, b) => a.name.localeCompare(b.name));
+
+            storeBooks = sorted;
+            filterDashboardBooks();
+        }
+
+        // Checkout & Payment Modals
+        async function openCheckoutModal() {
+            CartDrawer.close();
+            try {
+                const res = await fetch('cart');
+                const data = await res.json();
+                
+                if (data.success && data.cartItems && data.cartItems.length > 0) {
+                    document.getElementById('modalSubtotal').textContent = formatPrice(data.amountToPay);
+                    document.getElementById('modalTotalDue').textContent = formatPrice(data.amountToPay);
+                    document.getElementById('checkoutModal').classList.add('active');
+                } else {
+                    Toast.info("Your cart is empty");
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        async function processOrderPayment() {
+            const payBtn = document.getElementById('confirmPayBtn');
+            payBtn.disabled = true;
+            payBtn.innerHTML = 'Processing Secure Payment...';
+
+            try {
+                const res = await fetch('pay', { method: 'POST' });
+                const data = await res.json();
+
+                if (data.success) {
+                    closeCheckoutModal();
+                    Toast.success("Payment verified! Order placed successfully.");
+                    renderReceipt(data);
+                    document.getElementById('receiptModal').classList.add('active');
+                    fetchBooks(); // refresh stock counts
+                    CartDrawer.updateBadge([]); // reset badge
+                } else {
+                    Toast.error(data.message || "Payment authorization failed");
+                }
+            } catch(err) {
+                console.error("Payment error:", err);
+                Toast.error("Network error during payment");
+            } finally {
+                payBtn.disabled = false;
+                payBtn.innerHTML = 'Confirm & Pay Now';
+            }
+        }
+
+        function renderReceipt(data) {
+            const card = document.getElementById('invoiceCardContent');
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+            const invId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
+            const customerName = document.getElementById('confirmCustName').value || 'Aditya Asthana';
+
+            let itemsHtml = '';
+            let totalAmount = 0;
+
+            if (data.orders) {
+                data.orders.forEach(order => {
+                    totalAmount += order.amountPaid;
+                    itemsHtml += `
+                        <tr>
+                            <td style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-glass);">
+                                <div style="font-weight: 700; color: white;">${order.name}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary);">${order.author}</div>
+                            </td>
+                            <td style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-glass); text-align: right; font-weight: 700; color: #34d399;">
+                                ₹${order.amountPaid}
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+
+            card.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
+                            <span style="font-size: 1.3rem;">📚</span>
+                            <span style="font-weight: 800; font-size: 1.2rem; color: white;">ASTHANA BOOKSTORE</span>
+                        </div>
+                        <div style="font-size: 0.82rem; color: var(--text-secondary);">Direct Electronic Sales & Fulfillment</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="invoice-badge-success">PAID & VERIFIED</span>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #a5b4fc; margin-top: 0.3rem;">${invId}</div>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.88rem;">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Billed To:</div>
+                        <div style="font-weight: 700; color: white;">${customerName}</div>
+                        <div style="color: var(--text-secondary);">Verified Customer</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; font-weight: 700;">Date & Time:</div>
+                        <div style="font-weight: 600; color: white;">${dateStr}</div>
+                        <div style="color: var(--text-secondary);">${timeStr}</div>
+                    </div>
+                </div>
+
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border-glass); text-align: left; font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted);">
+                            <th style="padding-bottom: 0.5rem;">Item Description</th>
+                            <th style="padding-bottom: 0.5rem; text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itemsHtml}
+                    </tbody>
+                </table>
+
+                <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 0.75rem; border-top: 2px solid rgba(255,255,255,0.1); font-size: 1.25rem; font-weight: 800;">
+                    <span>Total Paid:</span>
+                    <span style="color: #34d399;">₹${totalAmount}</span>
+                </div>
+            `;
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+        }
+
+        function printReceipt() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

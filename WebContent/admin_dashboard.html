@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Console | Asthana Bookstore</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- Floating Navbar -->
+    <nav class="app-navbar">
+        <a href="admin_dashboard.html" class="brand-wrapper">
+            <div class="brand-logo-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">🛡️</div>
+            <div>
+                <span class="brand-title">Asthana Console</span>
+            </div>
+            <span class="brand-badge" style="background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.35); color: #fcd34d;">ADMIN</span>
+        </a>
+        <div class="nav-menu">
+            <button class="btn btn-primary btn-sm" onclick="openAddBookModal()">
+                <span>➕</span> Add New Book
+            </button>
+            <a href="index.html" class="nav-link" target="_blank">Storefront Preview ↗</a>
+            <a href="about.html" class="nav-link">About</a>
+            <button class="btn btn-outline btn-sm" onclick="logout()">Sign Out</button>
+        </div>
+    </nav>
+
+    <!-- Main Admin Container -->
+    <main class="container">
+        
+        <!-- Analytics KPI Row -->
+        <div class="grid grid-cols-4" style="margin-bottom: 2.5rem;">
+            <div class="stat-card">
+                <div class="stat-icon-box" style="background: rgba(99,102,241,0.15); color: #818cf8;">📚</div>
+                <div>
+                    <div class="stat-value" id="kpiTotalTitles">0</div>
+                    <div class="stat-label">Total Titles</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-box" style="background: rgba(16,185,129,0.15); color: #34d399;">📦</div>
+                <div>
+                    <div class="stat-value" id="kpiTotalUnits">0</div>
+                    <div class="stat-label">Total Stock Units</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-box" style="background: rgba(6,182,212,0.15); color: #22d3ee;">💰</div>
+                <div>
+                    <div class="stat-value" id="kpiTotalValuation">₹0</div>
+                    <div class="stat-label">Inventory Worth</div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon-box" style="background: rgba(239,68,68,0.15); color: #f87171;">⚠️</div>
+                <div>
+                    <div class="stat-value" id="kpiLowStock">0</div>
+                    <div class="stat-label">Low Stock Alerts</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Header & Filter Bar -->
+        <div class="glass-panel" style="padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">Store Inventory Management</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Inspect, restock, edit, or remove catalog items</p>
+                </div>
+                
+                <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
+                    <div class="search-box-wrapper" style="max-width: 320px;">
+                        <span class="search-icon-adornment">🔍</span>
+                        <input type="text" id="adminSearchInput" class="form-control" placeholder="Search title, author, barcode..." oninput="filterInventory()">
+                    </div>
+                    
+                    <select id="stockFilter" class="form-control" style="width: auto; font-size: 0.85rem;" onchange="filterInventory()">
+                        <option value="all">All Inventory</option>
+                        <option value="in">In Stock (Healthy)</option>
+                        <option value="low">Low Stock (&le; 5)</option>
+                        <option value="out">Out of Stock (0)</option>
+                    </select>
+
+                    <button class="btn btn-primary" onclick="openAddBookModal()">
+                        <span>➕</span> Add Book
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Data Table -->
+        <div class="modern-table-wrapper">
+            <table class="modern-table">
+                <thead>
+                    <tr>
+                        <th>Barcode / ISBN</th>
+                        <th>Book Information</th>
+                        <th>Author</th>
+                        <th>Price (INR)</th>
+                        <th>Stock Level</th>
+                        <th style="text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                            Loading live inventory from database...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- Modal: Add New Book -->
+    <div id="addBookModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>➕</span>
+                    <h3 class="modal-title">Add New Book to Store</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeAddBookModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addBookForm">
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text" name="name" class="form-control" placeholder="e.g. Designing Data-Intensive Applications" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author(s)</label>
+                        <input type="text" name="author" class="form-control" placeholder="e.g. Martin Kleppmann" required>
+                    </div>
+
+                    <div class="grid grid-cols-2" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" name="price" class="form-control" placeholder="e.g. 750" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Initial Quantity</label>
+                            <input type="number" name="quantity" class="form-control" placeholder="e.g. 20" required min="1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
+                            <label style="margin-bottom: 0;">Barcode / ISBN (Optional)</label>
+                            <button type="button" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; color: #a5b4fc; padding: 0.1rem 0.4rem;" onclick="generateRandomBarcode('newBarcode')">
+                                ⚡ Auto-Generate
+                            </button>
+                        </div>
+                        <input type="text" id="newBarcode" name="barcode" class="form-control" placeholder="e.g. 9780134190563 (Leave blank to auto-generate)">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-full btn-lg" style="margin-top: 0.75rem;">
+                        Save Book to Catalog
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Edit Book -->
+    <div id="editBookModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <span>✏️</span>
+                    <h3 class="modal-title">Edit Book Details</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editBookForm">
+                    <input type="hidden" name="updateFormSubmitted" value="true">
+
+                    <div class="form-group">
+                        <label>Barcode / ISBN</label>
+                        <input type="text" id="editBarcode" name="barcode" class="form-control" readonly style="opacity: 0.7; font-family: 'JetBrains Mono', monospace;">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Book Title</label>
+                        <input type="text" id="editName" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Author</label>
+                        <input type="text" id="editAuthor" name="author" class="form-control" required>
+                    </div>
+
+                    <div class="grid grid-cols-2" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" id="editPrice" name="price" class="form-control" required min="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Stock Quantity</label>
+                            <input type="number" id="editQty" name="quantity" class="form-control" required min="0">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-full btn-lg" style="margin-top: 0.75rem;">
+                        Update Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Confirm Delete -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-box" style="max-width: 450px;">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 0.5rem; color: #f87171;">
+                    <span>🗑️</span>
+                    <h3 class="modal-title">Confirm Book Deletion</h3>
+                </div>
+                <button class="modal-close-btn" onclick="closeDeleteModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.95rem;">
+                    Are you sure you want to permanently delete this book from the database? This action cannot be reversed.
+                </p>
+
+                <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: var(--radius-md); padding: 1.2rem; margin-bottom: 1.5rem;">
+                    <div id="deleteBookTitle" style="font-weight: 700; color: white; margin-bottom: 0.25rem;"></div>
+                    <div id="deleteBookAuthor" style="font-size: 0.85rem; color: var(--text-secondary);"></div>
+                    <div id="deleteBookBarcode" style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #fca5a5; margin-top: 0.5rem;"></div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-outline w-full" onclick="closeDeleteModal()">Cancel</button>
+                    <button class="btn btn-danger w-full" id="confirmDeleteBtn" onclick="executeBookDeletion()">Delete Permanently</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="brand-wrapper">
+                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem; background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">🛡️</div>
+                <span style="font-weight: 700; color: white;">Asthana Bookstore Console</span>
+            </div>
+            <div class="footer-credits">
+                Asthana Bookstore Platform • Engineered exclusively by <strong>Aditya Asthana</strong>
+            </div>
+            <div>
+                <button class="btn btn-outline btn-sm" onclick="logout()">Sign Out</button>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        let inventoryList = [];
+        let bookPendingDeletion = null;
+
+        document.addEventListener('DOMContentLoaded', fetchStoreInventory);
+
+        async function fetchStoreInventory() {
+            try {
+                const res = await fetch('storebooks');
+                const data = await res.json();
+                
+                if (data.success && data.books) {
+                    inventoryList = data.books;
+                    calculateKpis(inventoryList);
+                    renderInventoryTable(inventoryList);
+                } else {
+                    if (data.message && data.message.includes('Login First')) {
+                        Toast.error("Admin session expired. Redirecting...");
+                        setTimeout(() => window.location.href = 'login.html', 1200);
+                    }
+                }
+            } catch (err) {
+                console.error("Fetch inventory error:", err);
+                Toast.error("Failed to fetch store inventory");
+            }
+        }
+
+        function calculateKpis(books) {
+            let totalUnits = 0;
+            let totalValue = 0;
+            let lowStockCount = 0;
+
+            books.forEach(b => {
+                totalUnits += b.quantity;
+                totalValue += (b.quantity * b.price);
+                if (b.quantity <= 5) lowStockCount++;
+            });
+
+            document.getElementById('kpiTotalTitles').textContent = books.length;
+            document.getElementById('kpiTotalUnits').textContent = totalUnits;
+            document.getElementById('kpiTotalValuation').textContent = formatPrice(totalValue);
+            document.getElementById('kpiLowStock').textContent = lowStockCount;
+        }
+
+        function renderInventoryTable(books) {
+            const tbody = document.getElementById('inventoryTableBody');
+            tbody.innerHTML = '';
+
+            if (!books || books.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: var(--text-secondary);">No books match criteria.</td></tr>';
+                return;
+            }
+
+            books.forEach(book => {
+                const visuals = getBookVisuals(book.name, book.author);
+                
+                let stockClass = 'stock-in';
+                let stockLabel = `${book.quantity} Available`;
+                if (book.quantity <= 5 && book.quantity > 0) {
+                    stockClass = 'stock-low';
+                    stockLabel = `Low (${book.quantity})`;
+                } else if (book.quantity <= 0) {
+                    stockClass = 'stock-out';
+                    stockLabel = 'Out of Stock';
+                }
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; background: rgba(0,0,0,0.4); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid var(--border-glass);">
+                            ${book.barcode}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div style="width: 36px; height: 42px; border-radius: 6px; background: ${visuals.gradient}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
+                                ${visuals.icon}
+                            </div>
+                            <div>
+                                <div style="font-weight: 700; color: white;">${book.name}</div>
+                                <span class="brand-badge" style="font-size: 0.65rem; padding: 0.1rem 0.4rem;">${visuals.genre}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${book.author}</td>
+                    <td style="font-weight: 700; color: #34d399;">₹${book.price}</td>
+                    <td>
+                        <span class="stock-status-pill ${stockClass}">${stockLabel}</span>
+                    </td>
+                    <td style="text-align: right;">
+                        <div style="display: inline-flex; gap: 0.4rem;">
+                            <button class="btn btn-outline btn-sm" title="Quick Restock +5" onclick="quickRestock('${book.barcode}', ${book.quantity}, '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', ${book.price})">
+                                +5
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="openEditModal('${book.barcode}', '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', ${book.price}, ${book.quantity})">
+                                Edit
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="promptDelete('${book.barcode}', '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}')">
+                                Delete
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterInventory() {
+            const query = document.getElementById('adminSearchInput').value.toLowerCase().trim();
+            const stockFilter = document.getElementById('stockFilter').value;
+
+            const filtered = inventoryList.filter(book => {
+                const matchesQuery = book.name.toLowerCase().includes(query) || 
+                                     book.author.toLowerCase().includes(query) || 
+                                     book.barcode.toLowerCase().includes(query);
+                
+                let matchesStock = true;
+                if (stockFilter === 'in') matchesStock = book.quantity > 5;
+                else if (stockFilter === 'low') matchesStock = book.quantity > 0 && book.quantity <= 5;
+                else if (stockFilter === 'out') matchesStock = book.quantity <= 0;
+
+                return matchesQuery && matchesStock;
+            });
+
+            renderInventoryTable(filtered);
+        }
+
+        // Quick Restock shortcut
+        async function quickRestock(barcode, currentQty, name, author, price) {
+            const newQty = currentQty + 5;
+            const formData = new URLSearchParams();
+            formData.append('updateFormSubmitted', 'true');
+            formData.append('barcode', barcode);
+            formData.append('name', name);
+            formData.append('author', author);
+            formData.append('price', price.toString());
+            formData.append('quantity', newQty.toString());
+
+            try {
+                const res = await fetch('updatebook', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    Toast.success(`Restocked ${name} (+5 units)`);
+                    fetchStoreInventory();
+                } else {
+                    Toast.error(data.message || "Failed to update stock");
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        // Add Book Modal
+        function openAddBookModal() {
+            document.getElementById('addBookModal').classList.add('active');
+            generateRandomBarcode('newBarcode');
+        }
+
+        function closeAddBookModal() {
+            document.getElementById('addBookModal').classList.remove('active');
+        }
+
+        function generateRandomBarcode(inputId) {
+            const rand = '978' + Math.floor(1000000000 + Math.random() * 9000000000);
+            document.getElementById(inputId).value = rand;
+        }
+
+        document.getElementById('addBookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleFormSubmit(e, 'addbook', null, () => {
+                e.target.reset();
+                closeAddBookModal();
+                fetchStoreInventory();
+            });
+        });
+
+        // Edit Book Modal
+        function openEditModal(barcode, name, author, price, qty) {
+            document.getElementById('editBarcode').value = barcode;
+            document.getElementById('editName').value = name;
+            document.getElementById('editAuthor').value = author;
+            document.getElementById('editPrice').value = price;
+            document.getElementById('editQty').value = qty;
+            document.getElementById('editBookModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editBookModal').classList.remove('active');
+        }
+
+        document.getElementById('editBookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleFormSubmit(e, 'updatebook', null, () => {
+                closeEditModal();
+                fetchStoreInventory();
+            });
+        });
+
+        // Delete Modal
+        function promptDelete(barcode, name, author) {
+            bookPendingDeletion = barcode;
+            document.getElementById('deleteBookTitle').textContent = name;
+            document.getElementById('deleteBookAuthor').textContent = `by ${author}`;
+            document.getElementById('deleteBookBarcode').textContent = `ISBN: ${barcode}`;
+            document.getElementById('deleteModal').classList.add('active');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('active');
+            bookPendingDeletion = null;
+        }
+
+        async function executeBookDeletion() {
+            if (!bookPendingDeletion) return;
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('bookId', bookPendingDeletion);
+
+            try {
+                const res = await fetch('removebook', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    Toast.success("Book removed from catalog");
+                    closeDeleteModal();
+                    fetchStoreInventory();
+                } else {
+                    Toast.error(data.message || "Failed to remove book");
+                }
+            } catch (err) {
+                console.error(err);
+                Toast.error("Network error removing book");
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
