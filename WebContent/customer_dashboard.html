@@ -9,10 +9,12 @@
 </head>
 <body>
 
-    <!-- Floating Navbar -->
+    <!-- Floating Navbar with SVG Icons -->
     <nav class="app-navbar">
         <a href="customer_dashboard.html" class="brand-wrapper">
-            <div class="brand-logo-icon">📚</div>
+            <div class="brand-logo-icon">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color: white; width: 1.4rem; height: 1.4rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
             <div>
                 <span class="brand-title">Asthana Bookstore</span>
             </div>
@@ -20,11 +22,30 @@
         </a>
         <div class="nav-menu">
             <a href="customer_dashboard.html" class="nav-link active">Storefront</a>
-            <button class="cart-pill-btn" onclick="CartDrawer.open()">
-                <span>🛒</span>
-                <span>Cart</span>
-                <span class="cart-badge-count" id="navCartCount">0</span>
+            
+            <!-- Order History Button -->
+            <button class="icon-btn" onclick="OrderHistoryManager.openModal()" title="View Past Orders & Receipts">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline><path d="M2 12A10 10 0 0 1 12 2"></path></svg>
             </button>
+
+            <!-- Wishlist Button -->
+            <button class="icon-btn" onclick="WishlistManager.openModal()" title="View Wishlist">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <span class="wishlist-badge-count" style="display: none;">0</span>
+            </button>
+
+            <!-- Theme Toggle Button -->
+            <button class="icon-btn theme-toggle-btn" onclick="ThemeManager.toggle()" title="Toggle Dark/Light Mode">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+
+            <!-- Cart Pill Button -->
+            <button class="cart-pill-btn" onclick="CartDrawer.open()">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span>Bag</span>
+                <span class="cart-badge-count" id="navCartCount" style="display: none;">0</span>
+            </button>
+
             <a href="about.html" class="nav-link">About</a>
             <button class="btn btn-outline btn-sm" onclick="logout()">Sign Out</button>
         </div>
@@ -41,35 +62,50 @@
                     Welcome to the Reading Lounge
                 </h1>
                 <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                    Select your favorite titles, adjust quantities, and checkout with instant receipt generation.
+                    Select your favorite titles, apply promo codes, and checkout with instant official receipt generation.
                 </p>
             </div>
-            <div style="display: flex; gap: 1rem;">
+            <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                <button class="btn btn-outline" onclick="OrderHistoryManager.openModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline><path d="M2 12A10 10 0 0 1 12 2"></path></svg>
+                    <span>Past Orders</span>
+                </button>
                 <button class="btn btn-primary" onclick="CartDrawer.open()">
-                    <span>🛍️</span> View Shopping Cart
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span>View Shopping Bag</span>
                 </button>
             </div>
         </div>
 
-        <!-- Filter & Search Controls -->
+        <!-- Filter, Price Slider & Search Controls -->
         <div class="filter-bar">
             <div class="search-box-wrapper">
-                <span class="search-icon-adornment">🔍</span>
+                <span class="search-icon-adornment">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
                 <input type="text" id="dashboardSearch" class="form-control" placeholder="Search books by title, author, or ISBN..." oninput="filterDashboardBooks()">
+            </div>
+
+            <!-- Price Slider -->
+            <div class="price-slider-wrap">
+                <span>Max Price:</span>
+                <strong id="dashPriceLabel" style="color: #34d399; font-weight: 800;">₹2,000</strong>
+                <input type="range" id="dashPriceRange" min="200" max="2000" step="50" value="2000" oninput="updateDashboardPrice(this.value)">
             </div>
             
             <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                 <div class="category-chips">
                     <button class="chip-btn active" onclick="setDashboardCategory('all', this)">All</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('ai', this)">AI & Data</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('cloud', this)">Cloud & DevOps</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('systems', this)">Systems & C++</button>
                     <button class="chip-btn" onclick="setDashboardCategory('java', this)">Java</button>
-                    <button class="chip-btn" onclick="setDashboardCategory('rust', this)">Rust & Systems</button>
-                    <button class="chip-btn" onclick="setDashboardCategory('python', this)">Python</button>
-                    <button class="chip-btn" onclick="setDashboardCategory('web', this)">Web</button>
+                    <button class="chip-btn" onclick="setDashboardCategory('sql', this)">Databases</button>
                     <button class="chip-btn" onclick="setDashboardCategory('architecture', this)">Architecture</button>
                 </div>
 
                 <select id="sortSelect" class="form-control" style="width: auto; padding: 0.45rem 1rem; font-size: 0.85rem;" onchange="sortDashboardBooks()">
-                    <option value="default">Sort by: Default</option>
+                    <option value="default">Sort: Default</option>
                     <option value="price-asc">Price: Low to High</option>
                     <option value="price-desc">Price: High to Low</option>
                     <option value="stock-desc">Stock Availability</option>
@@ -81,7 +117,7 @@
         <!-- Book Catalog Grid -->
         <div class="grid grid-cols-3" id="dashboardBookGrid">
             <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-secondary);">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                <div style="margin-bottom: 1rem;">⏳</div>
                 <p>Loading bookstore catalog...</p>
             </div>
         </div>
@@ -92,15 +128,28 @@
     <div id="cartDrawer" class="cart-drawer">
         <div class="cart-drawer-header">
             <div style="display: flex; align-items: center; gap: 0.6rem;">
-                <span style="font-size: 1.3rem;">🛒</span>
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color: var(--accent-indigo);"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                 <h3 style="font-size: 1.15rem; font-weight: 700;">Your Shopping Bag</h3>
             </div>
-            <button class="modal-close-btn" onclick="CartDrawer.close()">&times;</button>
+            <button class="modal-close-btn" onclick="CartDrawer.close()">
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
         </div>
         
         <!-- Cart Items List Container -->
-        <div class="cart-drawer-body" id="drawerCartItems">
-            <!-- Rendered dynamically -->
+        <div class="cart-drawer-body" id="drawerCartItems"></div>
+
+        <!-- Promo Code Input in Drawer -->
+        <div id="drawerPromoSection" style="padding: 0 1.5rem 1rem; border-top: 1px solid var(--border-glass); padding-top: 1rem; display: none;">
+            <div style="font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.35rem;">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                Apply Coupon (Try: ADITYA10 or WELCOME20)
+            </div>
+            <div class="promo-box-container">
+                <input type="text" id="promoCodeInput" class="form-control" placeholder="Promo code..." style="text-transform: uppercase; font-size: 0.85rem; padding: 0.5rem 0.8rem;">
+                <button class="btn btn-primary btn-sm" onclick="applyPromoCode()">Apply</button>
+            </div>
+            <div id="drawerDiscountLine"></div>
         </div>
 
         <!-- Cart Drawer Footer -->
@@ -110,7 +159,8 @@
                 <span id="drawerTotalAmount" style="font-size: 1.6rem; font-weight: 800; color: #34d399;">₹0</span>
             </div>
             <button id="drawerCheckoutBtn" class="btn btn-success w-full btn-lg" onclick="openCheckoutModal()">
-                <span>💳</span> Proceed to Checkout
+                <svg class="svg-icon" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                <span>Proceed to Checkout</span>
             </button>
         </div>
     </div>
@@ -119,12 +169,17 @@
     <div id="checkoutModal" class="modal-overlay">
         <div class="modal-box" style="max-width: 520px;">
             <div class="modal-header">
-                <h3 class="modal-title">Complete Your Order</h3>
-                <button class="modal-close-btn" onclick="closeCheckoutModal()">&times;</button>
+                <h3 class="modal-title">
+                    <svg class="svg-icon" viewBox="0 0 24 24" style="color: #34d399;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                    <span>Complete Your Order</span>
+                </h3>
+                <button class="modal-close-btn" onclick="closeCheckoutModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body">
                 <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
-                    Review your payment details to finalize your purchase.
+                    Review your order breakdown and payment method.
                 </p>
 
                 <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.5rem;">
@@ -132,11 +187,15 @@
                         <span style="color: var(--text-secondary);">Subtotal Amount:</span>
                         <span id="modalSubtotal" style="font-weight: 600;">₹0</span>
                     </div>
+                    <div id="modalDiscountRow" style="display: none; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #34d399;">
+                        <span>Coupon Discount:</span>
+                        <span id="modalDiscountAmount" style="font-weight: 600;">-₹0</span>
+                    </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem;">
                         <span style="color: var(--text-secondary);">Shipping & Delivery:</span>
                         <span style="color: #34d399; font-weight: 600;">FREE</span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border-glass); font-size: 1.1rem; font-weight: 800;">
+                    <div style="display: flex; justify-content: space-between; padding-top: 0.75rem; border-top: 1px solid var(--border-glass); font-size: 1.15rem; font-weight: 800;">
                         <span>Total Due:</span>
                         <span id="modalTotalDue" style="color: #34d399;">₹0</span>
                     </div>
@@ -145,28 +204,32 @@
                 <div class="form-group">
                     <label>Payment Method</label>
                     <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
-                        <label style="border: 1px solid var(--accent-indigo); background: rgba(99,102,241,0.15); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: white; font-size: 0.82rem; font-weight: 600;">
+                        <label style="border: 1px solid var(--accent-indigo); background: rgba(99,102,241,0.15); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: white; font-size: 0.82rem; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
                             <input type="radio" name="payMethod" value="card" checked style="display: none;">
-                            💳 Card
+                            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                            Credit/Debit Card
                         </label>
-                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;">
+                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
                             <input type="radio" name="payMethod" value="upi" style="display: none;">
-                            📱 UPI / QR
+                            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                            UPI / QR Code
                         </label>
-                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600;">
+                        <label style="border: 1px solid var(--border-glass); background: rgba(0,0,0,0.2); padding: 0.8rem; border-radius: 8px; text-align: center; cursor: pointer; color: var(--text-secondary); font-size: 0.82rem; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;">
                             <input type="radio" name="payMethod" value="netbanking" style="display: none;">
-                            🏦 Net Banking
+                            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><line x1="3" y1="21" x2="21" y2="21"></line><line x1="3" y1="10" x2="21" y2="10"></line><polyline points="5 6 12 3 19 6"></polyline><line x1="4" y1="10" x2="4" y2="21"></line><line x1="20" y1="10" x2="20" y2="21"></line></svg>
+                            Net Banking
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Delivery Confirmation Name</label>
+                    <label>Recipient / Delivery Name</label>
                     <input type="text" id="confirmCustName" class="form-control" placeholder="Your Name" value="Aditya Asthana">
                 </div>
 
                 <button class="btn btn-success w-full btn-lg" id="confirmPayBtn" onclick="processOrderPayment()">
-                    Confirm & Pay Now
+                    <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>Confirm & Pay Now</span>
                 </button>
             </div>
         </div>
@@ -177,18 +240,19 @@
         <div class="modal-box" style="max-width: 620px;">
             <div class="modal-header">
                 <div style="display: flex; align-items: center; gap: 0.6rem;">
-                    <span style="font-size: 1.3rem;">🧾</span>
+                    <svg class="svg-icon" viewBox="0 0 24 24" style="color: #34d399;"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                     <h3 class="modal-title">Official Tax Invoice & Receipt</h3>
                 </div>
-                <button class="modal-close-btn" onclick="closeReceiptModal()">&times;</button>
+                <button class="modal-close-btn" onclick="closeReceiptModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body" id="printableReceiptArea">
-                <div class="invoice-card" id="invoiceCardContent">
-                    <!-- Rendered by JS after payment -->
-                </div>
+                <div class="invoice-card" id="invoiceCardContent"></div>
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                     <button class="btn btn-primary w-full" onclick="printReceipt()">
-                        🖨️ Print / Save Receipt
+                        <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        <span>Print / Save Receipt</span>
                     </button>
                     <button class="btn btn-outline w-full" onclick="closeReceiptModal()">
                         Close & Continue Shopping
@@ -202,8 +266,10 @@
     <footer class="app-footer">
         <div class="footer-content">
             <div class="brand-wrapper">
-                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📚</div>
-                <span style="font-weight: 700; color: white;">Asthana Bookstore</span>
+                <div class="brand-logo-icon" style="width: 32px; height: 32px;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: white;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
+                <span style="font-weight: 700; color: var(--text-primary);">Asthana Bookstore</span>
             </div>
             <div class="footer-credits">
                 Asthana Bookstore Platform • Engineered exclusively by <strong>Aditya Asthana</strong>
@@ -218,6 +284,7 @@
     <script>
         let storeBooks = [];
         let currentFilterCategory = 'all';
+        let dashboardMaxPrice = 2000;
 
         document.addEventListener('DOMContentLoaded', () => {
             fetchBooks();
@@ -268,6 +335,7 @@
             books.forEach(book => {
                 const visuals = getBookVisuals(book.name, book.author);
                 const isOutOfStock = book.quantity <= 0;
+                const isWish = WishlistManager.isWishlisted(book.barcode);
                 
                 let stockClass = 'stock-in';
                 let stockText = `${book.quantity} in stock`;
@@ -282,14 +350,23 @@
                 const card = document.createElement('div');
                 card.className = 'book-card-modern';
                 card.innerHTML = `
+                    <button class="btn-wishlist ${isWish ? 'active' : ''}" data-barcode="${book.barcode}" onclick='toggleWishlistFromCard(${JSON.stringify(book).replace(/'/g, "&#39;")})' title="Save to Wishlist">
+                        ${isWish ? SvgIcons.heartFilled : SvgIcons.heart}
+                    </button>
                     <div>
                         <div class="book-cover-art" style="background: ${visuals.gradient};">
-                            <span class="book-cover-icon">${visuals.icon}</span>
+                            ${visuals.svgIcon}
                             <span class="book-barcode-pill">${book.barcode}</span>
+                            <button class="quick-view-overlay-btn" onclick='QuickView.open(${JSON.stringify(book).replace(/'/g, "&#39;")})'>
+                                ${SvgIcons.eye} Quick View
+                            </button>
                         </div>
                         <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">${visuals.genre}</span>
                         <h3 class="book-title">${book.name}</h3>
                         <p class="book-author">by ${book.author}</p>
+                        <div class="book-rating-badge">
+                            ${SvgIcons.star} 4.9 &nbsp;<span style="color: var(--text-muted); font-size: 0.75rem;">(Verified)</span>
+                        </div>
                     </div>
                     <div>
                         <div class="book-price-row">
@@ -298,18 +375,27 @@
                         </div>
                         <div style="display: flex; gap: 0.6rem; align-items: center;">
                             <div class="quantity-control">
-                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', -1)">-</button>
+                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', -1)">${SvgIcons.minus}</button>
                                 <input type="number" id="qty_${book.barcode}" class="qty-input" value="1" min="1" max="${book.quantity}">
-                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', 1)">+</button>
+                                <button type="button" class="qty-btn" onclick="adjustQty('${book.barcode}', 1)">${SvgIcons.plus}</button>
                             </div>
                             <button class="btn btn-primary" style="flex: 1;" ${isOutOfStock ? 'disabled' : ''} onclick="addBookToCart('${book.barcode}')">
-                                <span>🛒</span> ${isOutOfStock ? 'Sold Out' : 'Add to Bag'}
+                                ${SvgIcons.cart} <span>${isOutOfStock ? 'Sold Out' : 'Add to Bag'}</span>
                             </button>
                         </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function toggleWishlistFromCard(book) {
+            WishlistManager.toggle(book);
+        }
+
+        function addWishlistItemToCart(barcode) {
+            addBookToCart(barcode);
+            WishlistManager.closeModal();
         }
 
         function adjustQty(barcode, delta) {
@@ -353,6 +439,23 @@
             }
         }
 
+        function applyPromoCode() {
+            const codeInput = document.getElementById('promoCodeInput');
+            const res = PromoEngine.apply(codeInput.value);
+            if (res.success) {
+                Toast.success(res.message);
+                CartDrawer.fetchDrawerCart();
+            } else {
+                Toast.error(res.message);
+            }
+        }
+
+        function updateDashboardPrice(val) {
+            dashboardMaxPrice = parseInt(val);
+            document.getElementById('dashPriceLabel').textContent = '₹' + dashboardMaxPrice.toLocaleString('en-IN');
+            filterDashboardBooks();
+        }
+
         function filterDashboardBooks() {
             const query = document.getElementById('dashboardSearch').value.toLowerCase().trim();
             
@@ -361,12 +464,14 @@
                                      book.author.toLowerCase().includes(query) || 
                                      book.barcode.toLowerCase().includes(query);
                 
-                if (currentFilterCategory === 'all') return matchesQuery;
+                const matchesPrice = book.price <= dashboardMaxPrice;
+
+                if (currentFilterCategory === 'all') return matchesQuery && matchesPrice;
                 
                 const visuals = getBookVisuals(book.name, book.author);
                 const matchesCategory = visuals.genre.toLowerCase().includes(currentFilterCategory) || 
                                         book.name.toLowerCase().includes(currentFilterCategory);
-                return matchesQuery && matchesCategory;
+                return matchesQuery && matchesCategory && matchesPrice;
             });
 
             renderBooksGrid(filtered);
@@ -400,8 +505,20 @@
                 const data = await res.json();
                 
                 if (data.success && data.cartItems && data.cartItems.length > 0) {
+                    const discount = PromoEngine.calculateDiscount(data.amountToPay);
+                    const finalDue = Math.max(0, data.amountToPay - discount);
+
                     document.getElementById('modalSubtotal').textContent = formatPrice(data.amountToPay);
-                    document.getElementById('modalTotalDue').textContent = formatPrice(data.amountToPay);
+                    
+                    const discRow = document.getElementById('modalDiscountRow');
+                    if (discount > 0) {
+                        discRow.style.display = 'flex';
+                        document.getElementById('modalDiscountAmount').textContent = `-₹${discount} (${PromoEngine.appliedCode})`;
+                    } else {
+                        discRow.style.display = 'none';
+                    }
+
+                    document.getElementById('modalTotalDue').textContent = formatPrice(finalDue);
                     document.getElementById('checkoutModal').classList.add('active');
                 } else {
                     Toast.info("Your cart is empty");
@@ -427,9 +544,22 @@
                 if (data.success) {
                     closeCheckoutModal();
                     Toast.success("Payment verified! Order placed successfully.");
-                    renderReceipt(data);
+                    
+                    // Save to order history
+                    const cartSubtotal = (data.orders || []).reduce((acc, curr) => acc + curr.amountPaid, 0);
+                    const discount = PromoEngine.calculateDiscount(cartSubtotal);
+                    const totalPaid = Math.max(0, cartSubtotal - discount);
+                    
+                    OrderHistoryManager.saveOrder({
+                        orders: data.orders,
+                        discount: discount,
+                        totalPaid: totalPaid
+                    });
+
+                    renderReceipt(data, discount, totalPaid);
                     document.getElementById('receiptModal').classList.add('active');
-                    fetchBooks(); // refresh stock counts
+                    PromoEngine.reset(); // reset promo
+                    fetchBooks(); // refresh stock
                     CartDrawer.updateBadge([]); // reset badge
                 } else {
                     Toast.error(data.message || "Payment authorization failed");
@@ -439,11 +569,11 @@
                 Toast.error("Network error during payment");
             } finally {
                 payBtn.disabled = false;
-                payBtn.innerHTML = 'Confirm & Pay Now';
+                payBtn.innerHTML = `${SvgIcons.check} <span>Confirm & Pay Now</span>`;
             }
         }
 
-        function renderReceipt(data) {
+        function renderReceipt(data, discount = 0, totalPaid = null) {
             const card = document.getElementById('invoiceCardContent');
             const now = new Date();
             const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -452,11 +582,11 @@
             const customerName = document.getElementById('confirmCustName').value || 'Aditya Asthana';
 
             let itemsHtml = '';
-            let totalAmount = 0;
+            let rawSubtotal = 0;
 
             if (data.orders) {
                 data.orders.forEach(order => {
-                    totalAmount += order.amountPaid;
+                    rawSubtotal += order.amountPaid;
                     itemsHtml += `
                         <tr>
                             <td style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-glass);">
@@ -471,17 +601,19 @@
                 });
             }
 
+            const finalAmt = totalPaid !== null ? totalPaid : Math.max(0, rawSubtotal - discount);
+
             card.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-glass);">
                     <div>
                         <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem;">
-                            <span style="font-size: 1.3rem;">📚</span>
+                            <span style="color: var(--accent-indigo);">${SvgIcons.book}</span>
                             <span style="font-weight: 800; font-size: 1.2rem; color: white;">ASTHANA BOOKSTORE</span>
                         </div>
                         <div style="font-size: 0.82rem; color: var(--text-secondary);">Direct Electronic Sales & Fulfillment</div>
                     </div>
                     <div style="text-align: right;">
-                        <span class="invoice-badge-success">PAID & VERIFIED</span>
+                        <span class="invoice-badge-success">${SvgIcons.check} PAID & VERIFIED</span>
                         <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: #a5b4fc; margin-top: 0.3rem;">${invId}</div>
                     </div>
                 </div>
@@ -499,7 +631,7 @@
                     </div>
                 </div>
 
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 1rem;">
                     <thead>
                         <tr style="border-bottom: 1px solid var(--border-glass); text-align: left; font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted);">
                             <th style="padding-bottom: 0.5rem;">Item Description</th>
@@ -511,9 +643,16 @@
                     </tbody>
                 </table>
 
+                ${discount > 0 ? `
+                    <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #34d399; margin-bottom: 0.5rem;">
+                        <span>Coupon Discount:</span>
+                        <span>-₹${discount}</span>
+                    </div>
+                ` : ''}
+
                 <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 0.75rem; border-top: 2px solid rgba(255,255,255,0.1); font-size: 1.25rem; font-weight: 800;">
                     <span>Total Paid:</span>
-                    <span style="color: #34d399;">₹${totalAmount}</span>
+                    <span style="color: #34d399;">₹${finalAmt}</span>
                 </div>
             `;
         }

@@ -9,20 +9,36 @@
 </head>
 <body>
 
-    <!-- Floating Navbar -->
+    <!-- Floating Navbar with SVG Icons -->
     <nav class="app-navbar">
         <a href="admin_dashboard.html" class="brand-wrapper">
-            <div class="brand-logo-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">🛡️</div>
+            <div class="brand-logo-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color: white; width: 1.3rem; height: 1.3rem;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
             <div>
                 <span class="brand-title">Asthana Console</span>
             </div>
             <span class="brand-badge" style="background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.35); color: #fcd34d;">ADMIN</span>
         </a>
         <div class="nav-menu">
-            <button class="btn btn-primary btn-sm" onclick="openAddBookModal()">
-                <span>➕</span> Add New Book
+            <!-- Theme Toggle Button -->
+            <button class="icon-btn theme-toggle-btn" onclick="ThemeManager.toggle()" title="Toggle Dark/Light Mode">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </button>
-            <a href="index.html" class="nav-link" target="_blank">Storefront Preview ↗</a>
+
+            <!-- Export to CSV Button -->
+            <button class="btn btn-outline btn-sm" onclick="exportInventoryToCsv(inventoryList)" title="Export Inventory to CSV">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Export CSV</span>
+            </button>
+
+            <!-- Add Book Button -->
+            <button class="btn btn-primary btn-sm" onclick="openAddBookModal()">
+                <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Add Book</span>
+            </button>
+
+            <a href="index.html" class="nav-link" target="_blank">Storefront ↗</a>
             <a href="about.html" class="nav-link">About</a>
             <button class="btn btn-outline btn-sm" onclick="logout()">Sign Out</button>
         </div>
@@ -31,10 +47,12 @@
     <!-- Main Admin Container -->
     <main class="container">
         
-        <!-- Analytics KPI Row -->
+        <!-- Analytics KPI Row with SVG Icons -->
         <div class="grid grid-cols-4" style="margin-bottom: 2.5rem;">
             <div class="stat-card">
-                <div class="stat-icon-box" style="background: rgba(99,102,241,0.15); color: #818cf8;">📚</div>
+                <div class="stat-icon-box" style="background: rgba(99,102,241,0.15); color: #818cf8;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
                 <div>
                     <div class="stat-value" id="kpiTotalTitles">0</div>
                     <div class="stat-label">Total Titles</div>
@@ -42,15 +60,19 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon-box" style="background: rgba(16,185,129,0.15); color: #34d399;">📦</div>
+                <div class="stat-icon-box" style="background: rgba(16,185,129,0.15); color: #34d399;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>
+                </div>
                 <div>
                     <div class="stat-value" id="kpiTotalUnits">0</div>
-                    <div class="stat-label">Total Stock Units</div>
+                    <div class="stat-label">Stock Units</div>
                 </div>
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon-box" style="background: rgba(6,182,212,0.15); color: #22d3ee;">💰</div>
+                <div class="stat-icon-box" style="background: rgba(6,182,212,0.15); color: #22d3ee;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><line x1="12" y1="18" x2="12" y2="20"></line><line x1="12" y1="4" x2="12" y2="6"></line></svg>
+                </div>
                 <div>
                     <div class="stat-value" id="kpiTotalValuation">₹0</div>
                     <div class="stat-label">Inventory Worth</div>
@@ -58,7 +80,9 @@
             </div>
 
             <div class="stat-card">
-                <div class="stat-icon-box" style="background: rgba(239,68,68,0.15); color: #f87171;">⚠️</div>
+                <div class="stat-icon-box" style="background: rgba(239,68,68,0.15); color: #f87171;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </div>
                 <div>
                     <div class="stat-value" id="kpiLowStock">0</div>
                     <div class="stat-label">Low Stock Alerts</div>
@@ -71,12 +95,14 @@
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <h2 style="font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px;">Store Inventory Management</h2>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Inspect, restock, edit, or remove catalog items</p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Inspect, restock, edit, export, or remove catalog items</p>
                 </div>
                 
                 <div style="display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap;">
-                    <div class="search-box-wrapper" style="max-width: 320px;">
-                        <span class="search-icon-adornment">🔍</span>
+                    <div class="search-box-wrapper" style="max-width: 300px;">
+                        <span class="search-icon-adornment">
+                            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </span>
                         <input type="text" id="adminSearchInput" class="form-control" placeholder="Search title, author, barcode..." oninput="filterInventory()">
                     </div>
                     
@@ -87,8 +113,14 @@
                         <option value="out">Out of Stock (0)</option>
                     </select>
 
+                    <button class="btn btn-outline" onclick="exportInventoryToCsv(inventoryList)" title="Download CSV">
+                        <svg class="svg-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span>Export CSV</span>
+                    </button>
+
                     <button class="btn btn-primary" onclick="openAddBookModal()">
-                        <span>➕</span> Add Book
+                        <svg class="svg-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Add Book</span>
                     </button>
                 </div>
             </div>
@@ -123,10 +155,12 @@
         <div class="modal-box">
             <div class="modal-header">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span>➕</span>
+                    <span style="color: var(--accent-indigo);">${SvgIcons.plus}</span>
                     <h3 class="modal-title">Add New Book to Store</h3>
                 </div>
-                <button class="modal-close-btn" onclick="closeAddBookModal()">&times;</button>
+                <button class="modal-close-btn" onclick="closeAddBookModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="addBookForm">
@@ -155,7 +189,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.4rem;">
                             <label style="margin-bottom: 0;">Barcode / ISBN (Optional)</label>
                             <button type="button" class="btn btn-ghost btn-sm" style="font-size: 0.75rem; color: #a5b4fc; padding: 0.1rem 0.4rem;" onclick="generateRandomBarcode('newBarcode')">
-                                ⚡ Auto-Generate
+                                Auto-Generate
                             </button>
                         </div>
                         <input type="text" id="newBarcode" name="barcode" class="form-control" placeholder="e.g. 9780134190563 (Leave blank to auto-generate)">
@@ -174,10 +208,12 @@
         <div class="modal-box">
             <div class="modal-header">
                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <span>✏️</span>
+                    <span style="color: var(--accent-indigo);">${SvgIcons.edit}</span>
                     <h3 class="modal-title">Edit Book Details</h3>
                 </div>
-                <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
+                <button class="modal-close-btn" onclick="closeEditModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body">
                 <form id="editBookForm">
@@ -222,10 +258,12 @@
         <div class="modal-box" style="max-width: 450px;">
             <div class="modal-header">
                 <div style="display: flex; align-items: center; gap: 0.5rem; color: #f87171;">
-                    <span>🗑️</span>
+                    <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                     <h3 class="modal-title">Confirm Book Deletion</h3>
                 </div>
-                <button class="modal-close-btn" onclick="closeDeleteModal()">&times;</button>
+                <button class="modal-close-btn" onclick="closeDeleteModal()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
             <div class="modal-body">
                 <p style="color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 0.95rem;">
@@ -250,8 +288,10 @@
     <footer class="app-footer">
         <div class="footer-content">
             <div class="brand-wrapper">
-                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem; background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">🛡️</div>
-                <span style="font-weight: 700; color: white;">Asthana Bookstore Console</span>
+                <div class="brand-logo-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: white;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <span style="font-weight: 700; color: var(--text-primary);">Asthana Bookstore Console</span>
             </div>
             <div class="footer-credits">
                 Asthana Bookstore Platform • Engineered exclusively by <strong>Aditya Asthana</strong>
@@ -338,11 +378,11 @@
                     </td>
                     <td>
                         <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <div style="width: 36px; height: 42px; border-radius: 6px; background: ${visuals.gradient}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">
-                                ${visuals.icon}
+                            <div style="width: 36px; height: 42px; border-radius: 6px; background: ${visuals.gradient}; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white;">
+                                <div style="transform: scale(0.65);">${visuals.svgIcon}</div>
                             </div>
                             <div>
-                                <div style="font-weight: 700; color: white;">${book.name}</div>
+                                <div style="font-weight: 700; color: var(--text-primary);">${book.name}</div>
                                 <span class="brand-badge" style="font-size: 0.65rem; padding: 0.1rem 0.4rem;">${visuals.genre}</span>
                             </div>
                         </div>
@@ -355,13 +395,13 @@
                     <td style="text-align: right;">
                         <div style="display: inline-flex; gap: 0.4rem;">
                             <button class="btn btn-outline btn-sm" title="Quick Restock +5" onclick="quickRestock('${book.barcode}', ${book.quantity}, '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', ${book.price})">
-                                +5
+                                ${SvgIcons.plus} 5
                             </button>
                             <button class="btn btn-outline btn-sm" onclick="openEditModal('${book.barcode}', '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}', ${book.price}, ${book.quantity})">
-                                Edit
+                                ${SvgIcons.edit} Edit
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="promptDelete('${book.barcode}', '${book.name.replace(/'/g, "\\'")}', '${book.author.replace(/'/g, "\\'")}')">
-                                Delete
+                                ${SvgIcons.trash}
                             </button>
                         </div>
                     </td>

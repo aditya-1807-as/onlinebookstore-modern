@@ -12,12 +12,20 @@
     <!-- Floating Navbar -->
     <nav class="app-navbar">
         <a href="index.html" class="brand-wrapper">
-            <div class="brand-logo-icon">📚</div>
+            <div class="brand-logo-icon">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color: white; width: 1.4rem; height: 1.4rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
             <span class="brand-title">Asthana Bookstore</span>
         </a>
         <div class="nav-menu">
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link active">About Creator</a>
+            
+            <!-- Theme Switcher Button -->
+            <button class="icon-btn theme-toggle-btn" onclick="ThemeManager.toggle()" title="Toggle Dark/Light Theme">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+
             <a href="login.html" class="nav-link">Sign In</a>
             <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
         </div>
@@ -28,8 +36,8 @@
         
         <!-- Creator Hero Banner -->
         <div class="glass-panel" style="padding: 3.5rem 2.5rem; text-align: center; margin-bottom: 3rem; background: linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(139,92,246,0.08) 100%);">
-            <div style="width: 84px; height: 84px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem; box-shadow: 0 10px 30px var(--accent-glow);">
-                👨‍💻
+            <div style="width: 84px; height: 84px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 10px 30px var(--accent-glow);">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="width: 2.5rem; height: 2.5rem; color: white;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             </div>
             <span class="brand-badge" style="margin-bottom: 0.8rem; display: inline-block;">PROJECT OWNER & LEAD ARCHITECT</span>
             <h1 style="font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 1rem;">
@@ -39,8 +47,14 @@
                 Passionate Software Engineer & Systems Architect dedicated to crafting elegant, scalable, and high-performance digital platforms.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="index.html" class="btn btn-primary">Explore Storefront</a>
-                <a href="login.html" class="btn btn-outline">Access Platform</a>
+                <a href="index.html" class="btn btn-primary">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Explore Storefront</span>
+                </a>
+                <a href="login.html" class="btn btn-outline">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <span>Access Platform</span>
+                </a>
             </div>
         </div>
 
@@ -53,7 +67,9 @@
 
             <div class="grid grid-cols-3">
                 <div class="glass-panel">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(99,102,241,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; color: #818cf8;">
+                        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 1.5rem; height: 1.5rem;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
                     <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Application Layer</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
                         High-concurrency Java HTTP Servlets processing REST-style JSON endpoints via Google Gson. Decoupled controller-service-DAO design with clean exception propagation.
@@ -61,7 +77,9 @@
                 </div>
 
                 <div class="glass-panel">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🛡️</div>
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; color: #34d399;">
+                        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 1.5rem; height: 1.5rem;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    </div>
                     <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Persistence Tier</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
                         MySQL 8.0 relational database with JDBC 8.0 driver. Parametric queries prevent SQL injections, transactional updates safeguard stock during high-volume checkouts.
@@ -69,7 +87,9 @@
                 </div>
 
                 <div class="glass-panel">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">💎</div>
+                    <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(236,72,153,0.15); display: flex; align-items: center; justify-content: center; margin-bottom: 1.2rem; color: #f472b6;">
+                        <svg class="svg-icon" viewBox="0 0 24 24" style="width: 1.5rem; height: 1.5rem;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
                     <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Modern UX Engine</h3>
                     <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
                         Custom glassmorphic styling, async fetch pipelines, toast notifications, slide-over cart drawer, and client-side real-time filter indexing.
@@ -82,14 +102,38 @@
         <div class="glass-panel" style="margin-bottom: 3rem; text-align: center;">
             <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem;">Technologies & Core Standards</h3>
             <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
-                <span class="chip-btn" style="cursor: default;">☕ Java JDK 8+</span>
-                <span class="chip-btn" style="cursor: default;">🌐 Java Servlets & JSP API</span>
-                <span class="chip-btn" style="cursor: default;">🐬 MySQL Server 8.0</span>
-                <span class="chip-btn" style="cursor: default;">🔌 MySQL Connector/J</span>
-                <span class="chip-btn" style="cursor: default;">📦 Apache Maven</span>
-                <span class="chip-btn" style="cursor: default;">🚀 Embedded Tomcat (Webapp-Runner)</span>
-                <span class="chip-btn" style="cursor: default;">⚡ ES6+ JavaScript Async/Await</span>
-                <span class="chip-btn" style="cursor: default;">🎨 Glassmorphism & Vanilla CSS</span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                    Java JDK 8+
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    Java Servlets & JSP API
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    MySQL Server 8.0
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    MySQL Connector/J 8.0
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    Apache Maven
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path></svg>
+                    Embedded Tomcat (Webapp-Runner)
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline><line x1="14" y1="4" x2="10" y2="20"></line></svg>
+                    ES6+ JavaScript Async/Await
+                </span>
+                <span class="chip-btn" style="cursor: default; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0 0 20c1.38 0 2.5-1.12 2.5-2.5 0-.61-.23-1.2-.64-1.67-.4-.46-.64-1.06-.64-1.83 0-1.38 1.12-2.5 2.5-2.5H18a4 4 0 0 0 4-4c0-4.42-4.48-7.5-10-7.5z"></path></svg>
+                    Glassmorphism & Vanilla CSS
+                </span>
             </div>
         </div>
     </main>
@@ -98,7 +142,9 @@
     <footer class="app-footer">
         <div class="footer-content">
             <div class="brand-wrapper">
-                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📚</div>
+                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">
+                    <svg class="svg-icon" viewBox="0 0 24 24" style="color: white; width: 1.1rem; height: 1.1rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
                 <span style="font-weight: 700; color: white;">Asthana Bookstore</span>
             </div>
             <div class="footer-credits">

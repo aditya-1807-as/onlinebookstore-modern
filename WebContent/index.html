@@ -10,10 +10,12 @@
 </head>
 <body>
 
-    <!-- Modern Floating Pill Navbar -->
+    <!-- Modern Floating Pill Navbar with SVG Icons -->
     <nav class="app-navbar">
         <a href="index.html" class="brand-wrapper">
-            <div class="brand-logo-icon">📚</div>
+            <div class="brand-logo-icon">
+                <svg class="svg-icon" viewBox="0 0 24 24" style="color: white; width: 1.4rem; height: 1.4rem;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            </div>
             <div>
                 <span class="brand-title">Asthana Bookstore</span>
             </div>
@@ -23,6 +25,18 @@
             <a href="index.html" class="nav-link active">Home</a>
             <a href="#catalog" class="nav-link">Catalog</a>
             <a href="about.html" class="nav-link">About Creator</a>
+            
+            <!-- Wishlist Button -->
+            <button class="icon-btn" onclick="WishlistManager.openModal()" title="View Wishlist">
+                <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                <span class="wishlist-badge-count" style="display: none;">0</span>
+            </button>
+
+            <!-- Theme Switcher Button -->
+            <button class="icon-btn theme-toggle-btn" onclick="ThemeManager.toggle()" title="Toggle Dark/Light Theme">
+                <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+
             <a href="login.html" class="nav-link">Sign In</a>
             <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
         </div>
@@ -31,7 +45,8 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="hero-badge">
-            <span>✨</span> Next-Gen Web Platform • Engineered by Aditya Asthana
+            <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: #a5b4fc;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            Next-Gen Web Platform • Engineered by Aditya Asthana
         </div>
         <h1 class="hero-title">
             Curated Knowledge for the <br>
@@ -41,27 +56,42 @@
             Explore industry-standard programming books, distributed systems treatises, and computer science classics with lightning-fast catalog search and instant checkout.
         </p>
         <div class="hero-actions">
-            <a href="#catalog" class="btn btn-primary btn-lg">Browse Catalog</a>
+            <a href="#catalog" class="btn btn-primary btn-lg">
+                <span>Browse Catalog</span>
+                <svg class="svg-icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
             <a href="login.html" class="btn btn-outline btn-lg">Sign In to Account</a>
         </div>
 
-        <!-- Live Stats Strip -->
+        <!-- Live Stats Strip with SVG Icons -->
         <div class="stats-strip">
             <div class="stat-item">
-                <div class="stat-item-number" id="statTitles">12+</div>
-                <div class="stat-item-label">Curated Titles</div>
+                <div class="stat-item-number" id="statTitles">26+</div>
+                <div class="stat-item-label" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    Curated Titles
+                </div>
             </div>
             <div class="stat-item">
                 <div class="stat-item-number">100%</div>
-                <div class="stat-item-label">ACID Compliant DB</div>
+                <div class="stat-item-label" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                    ACID Compliant DB
+                </div>
             </div>
             <div class="stat-item">
                 <div class="stat-item-number">&lt; 100ms</div>
-                <div class="stat-item-label">Servlet Response Time</div>
+                <div class="stat-item-label" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Servlet Latency
+                </div>
             </div>
             <div class="stat-item">
                 <div class="stat-item-number">4.9 ★</div>
-                <div class="stat-item-label">Reader Satisfaction</div>
+                <div class="stat-item-label" style="display: flex; align-items: center; justify-content: center; gap: 0.35rem;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    Reader Rating
+                </div>
             </div>
         </div>
     </section>
@@ -75,18 +105,29 @@
             <p style="color: var(--text-secondary);">Real-time inventory synchronized with MySQL backend</p>
         </div>
 
-        <!-- Search & Category Filters -->
+        <!-- Search, Price Filter & Category Chips -->
         <div class="filter-bar">
             <div class="search-box-wrapper">
-                <span class="search-icon-adornment">🔍</span>
+                <span class="search-icon-adornment">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
                 <input type="text" id="catalogSearch" class="form-control" placeholder="Search by title, author, or ISBN..." oninput="filterBooks()">
             </div>
+
+            <!-- Price Range Filter -->
+            <div class="price-slider-wrap">
+                <span>Max Price:</span>
+                <strong id="priceLabel" style="color: #34d399; font-weight: 800;">₹2,000</strong>
+                <input type="range" id="priceRange" min="200" max="2000" step="50" value="2000" oninput="updatePriceFilter(this.value)">
+            </div>
+            
             <div class="category-chips">
                 <button class="chip-btn active" onclick="setCategory('all', this)">All Editions</button>
+                <button class="chip-btn" onclick="setCategory('ai', this)">AI & Data</button>
+                <button class="chip-btn" onclick="setCategory('cloud', this)">Cloud & DevOps</button>
+                <button class="chip-btn" onclick="setCategory('systems', this)">Systems & C++</button>
                 <button class="chip-btn" onclick="setCategory('java', this)">Java</button>
-                <button class="chip-btn" onclick="setCategory('rust', this)">Rust & Systems</button>
-                <button class="chip-btn" onclick="setCategory('python', this)">Python</button>
-                <button class="chip-btn" onclick="setCategory('web', this)">Web & React</button>
+                <button class="chip-btn" onclick="setCategory('sql', this)">Databases</button>
                 <button class="chip-btn" onclick="setCategory('architecture', this)">Architecture</button>
             </div>
         </div>
@@ -94,13 +135,13 @@
         <!-- Book Grid -->
         <div class="grid grid-cols-3" id="catalogGrid">
             <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--text-secondary);">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                <div style="margin-bottom: 1rem;">⏳</div>
                 <p>Loading real-time catalog from server...</p>
             </div>
         </div>
     </main>
 
-    <!-- Platform Highlights Section -->
+    <!-- Platform Highlights Section with SVG Icons -->
     <section class="container" style="padding-top: 2rem; padding-bottom: 5rem;">
         <div style="text-align: center; margin-bottom: 3.5rem;">
             <div class="hero-badge" style="margin-bottom: 0.75rem;">ARCHITECTURE & PERFORMANCE</div>
@@ -112,8 +153,8 @@
 
         <div class="grid grid-cols-3">
             <div class="glass-panel" style="padding: 2rem;">
-                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(99,102,241,0.15); color: #818cf8; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
-                    ⚡
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(99,102,241,0.15); color: #818cf8; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 </div>
                 <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Java Servlet APIs</h3>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
@@ -122,8 +163,8 @@
             </div>
 
             <div class="glass-panel" style="padding: 2rem;">
-                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.15); color: #34d399; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
-                    🛡️
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(16,185,129,0.15); color: #34d399; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                 </div>
                 <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">MySQL 8.0 & JDBC</h3>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
@@ -132,8 +173,8 @@
             </div>
 
             <div class="glass-panel" style="padding: 2rem;">
-                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(236,72,153,0.15); color: #f472b6; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
-                    💎
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(236,72,153,0.15); color: #f472b6; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+                    <svg class="svg-icon svg-icon-lg" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
                 </div>
                 <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem;">Glassmorphic UI</h3>
                 <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
@@ -154,7 +195,10 @@
                 </p>
             </div>
             <div>
-                <a href="about.html" class="btn btn-primary btn-lg">Learn More About Project</a>
+                <a href="about.html" class="btn btn-primary btn-lg">
+                    <span>Learn More About Project</span>
+                    <svg class="svg-icon" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -163,8 +207,10 @@
     <footer class="app-footer">
         <div class="footer-content">
             <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div class="brand-logo-icon" style="width: 32px; height: 32px; font-size: 1rem;">📚</div>
-                <span style="font-weight: 700; color: white;">Asthana Bookstore</span>
+                <div class="brand-logo-icon" style="width: 32px; height: 32px;">
+                    <svg class="svg-icon svg-icon-sm" viewBox="0 0 24 24" style="color: white;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                </div>
+                <span style="font-weight: 700; color: var(--text-primary);">Asthana Bookstore</span>
             </div>
             <div class="footer-credits">
                 Designed & Engineered exclusively by <strong>Aditya Asthana</strong> • &copy; 2026 All Rights Reserved
@@ -181,6 +227,7 @@
     <script>
         let allBooks = [];
         let currentCategory = 'all';
+        let maxPrice = 2000;
 
         document.addEventListener('DOMContentLoaded', loadCatalog);
 
@@ -215,6 +262,7 @@
             books.forEach(book => {
                 const visuals = getBookVisuals(book.name, book.author);
                 const isOutOfStock = book.quantity <= 0;
+                const isWish = WishlistManager.isWishlisted(book.barcode);
                 
                 let stockClass = 'stock-in';
                 let stockText = `${book.quantity} Available`;
@@ -229,14 +277,23 @@
                 const card = document.createElement('div');
                 card.className = 'book-card-modern';
                 card.innerHTML = `
+                    <button class="btn-wishlist ${isWish ? 'active' : ''}" data-barcode="${book.barcode}" onclick='toggleWishlistFromCard(${JSON.stringify(book).replace(/'/g, "&#39;")})' title="Save to Wishlist">
+                        ${isWish ? SvgIcons.heartFilled : SvgIcons.heart}
+                    </button>
                     <div>
                         <div class="book-cover-art" style="background: ${visuals.gradient};">
-                            <span class="book-cover-icon">${visuals.icon}</span>
+                            ${visuals.svgIcon}
                             <span class="book-barcode-pill">${book.barcode}</span>
+                            <button class="quick-view-overlay-btn" onclick='QuickView.open(${JSON.stringify(book).replace(/'/g, "&#39;")})'>
+                                ${SvgIcons.eye} Quick View
+                            </button>
                         </div>
                         <span class="brand-badge" style="margin-bottom: 0.5rem; display: inline-block;">${visuals.genre}</span>
                         <h3 class="book-title">${book.name}</h3>
                         <p class="book-author">by ${book.author}</p>
+                        <div class="book-rating-badge">
+                            ${SvgIcons.star} 4.9 &nbsp;<span style="color: var(--text-muted); font-size: 0.75rem;">(Verified)</span>
+                        </div>
                     </div>
                     <div>
                         <div class="book-price-row">
@@ -244,12 +301,22 @@
                             <span class="stock-status-pill ${stockClass}">${stockText}</span>
                         </div>
                         <a href="login.html" class="btn btn-outline w-full" style="gap: 0.5rem;">
-                            <span>🛒</span> Sign In to Order
+                            ${SvgIcons.cart} Sign In to Order
                         </a>
                     </div>
                 `;
                 grid.appendChild(card);
             });
+        }
+
+        function toggleWishlistFromCard(book) {
+            WishlistManager.toggle(book);
+        }
+
+        function updatePriceFilter(val) {
+            maxPrice = parseInt(val);
+            document.getElementById('priceLabel').textContent = '₹' + maxPrice.toLocaleString('en-IN');
+            filterBooks();
         }
 
         function filterBooks() {
@@ -260,12 +327,14 @@
                                      book.author.toLowerCase().includes(query) || 
                                      book.barcode.toLowerCase().includes(query);
                 
-                if (currentCategory === 'all') return matchesQuery;
+                const matchesPrice = book.price <= maxPrice;
+
+                if (currentCategory === 'all') return matchesQuery && matchesPrice;
                 
                 const visuals = getBookVisuals(book.name, book.author);
                 const matchesCategory = visuals.genre.toLowerCase().includes(currentCategory) || 
                                         book.name.toLowerCase().includes(currentCategory);
-                return matchesQuery && matchesCategory;
+                return matchesQuery && matchesCategory && matchesPrice;
             });
 
             renderCatalog(filtered);
