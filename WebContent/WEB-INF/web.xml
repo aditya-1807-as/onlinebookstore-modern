@@ -123,6 +123,21 @@
 		<url-pattern>/pay</url-pattern>
 	</servlet-mapping>
 
+	<!-- Database Auto-Initializer Listener -->
+	<listener>
+		<listener-class>com.bittercode.util.DatabaseInitializerListener</listener-class>
+	</listener>
+
+	<!-- Manual Seed Endpoint -->
+	<servlet>
+		<servlet-name>InitDatabaseServlet</servlet-name>
+		<servlet-class>servlets.InitDatabaseServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InitDatabaseServlet</servlet-name>
+		<url-pattern>/initdb</url-pattern>
+	</servlet-mapping>
+
 	<!-- Error Handlers -->
 	<servlet>
 		<servlet-name>ErrorHandlerServlet</servlet-name>
